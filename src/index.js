@@ -5,25 +5,6 @@ import { validator } from "email-validator";
 
 import "./styles.css";
 
-function submitForm() {
-  alert("test");
-}
-
-function validate() {
-  let valid = false;
-  let email = this.state.email;
-  validator.validate(email); // true
-  console.log("Run Validation", valid);
-  console.log("Email", email);
-
-  if (email && !validator.validate(email)); // true
-  valid = false;
-
-  this.setState({ valid: valid });
-  console.log("valid state? ", valid);
-  return { valid };
-}
-
 class NewForm extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +12,28 @@ class NewForm extends React.Component {
       formPost: "",
       email: ""
     };
+    this.submitForm = this.submitForm.bind(this);
+    this.validate = this.validate.bind(this);
+  }
+
+  submitForm(event) {
+    alert("test");
+    event.preventDefault();
+  }
+
+  validate() {
+    let valid = false;
+    let email = this.state.email;
+
+    console.log("Run Validation", valid);
+    console.log("Email", email);
+
+    if (email && !validator.validate(email)); // true
+    valid = false;
+
+    this.setState({ valid: valid });
+    console.log("valid state? ", valid);
+    return { valid };
   }
 
   render() {
@@ -39,7 +42,7 @@ class NewForm extends React.Component {
     return (
       <div className="App">
         <div className="container">
-          <form onSubmit={submitForm}>
+          <form onSubmit={this.submitForm}>
             <h1>User Details</h1>
             <h2>Please enter your details to continue:</h2>
             <div>
@@ -49,7 +52,7 @@ class NewForm extends React.Component {
                   type="text"
                   name="first_name"
                   placeholder="e.g. John"
-                  onBlur={validate}
+                  onBlur={this.validate}
                   required={true}
                 />
               </label>
@@ -61,7 +64,7 @@ class NewForm extends React.Component {
                   type="text"
                   name="last_name"
                   placeholder="e.g. Doe"
-                  onBlur={validate}
+                  onBlur={this.validate}
                   required={true}
                 />
               </label>
@@ -72,7 +75,7 @@ class NewForm extends React.Component {
                 <input
                   type="date"
                   name="date_of_birth"
-                  onBlur={validate}
+                  onBlur={this.validate}
                   required={true}
                 />
               </label>
@@ -83,12 +86,12 @@ class NewForm extends React.Component {
                 <input
                   type="email"
                   name="email"
-                  onBlur={validate}
+                  onBlur={this.validate}
                   required={true}
                 />
               </label>
             </div>
-            <input type="submit" value="Submit" disabled={!validate.valid} />
+            <input type="submit" value="Submit" disabled={!this.state.valid} />
           </form>
         </div>
       </div>
