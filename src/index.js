@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-//import { createStore } from 'redux'
+import { createStore } from "redux";
 import { validator } from "email-validator";
 
 import "./styles.css";
@@ -14,6 +14,16 @@ class NewForm extends React.Component {
     };
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+  onChange(e, field, value) {
+    //store the change
+    store.dispatch({ type: "set_field", field, value });
+  }
+
+  reset() {
+    store.dispatch({ type: "reset_data" });
   }
 
   submitForm(event) {
@@ -22,7 +32,7 @@ class NewForm extends React.Component {
   }
 
   validate() {
-    let valid = false;
+    let valid = true;
     let email = this.state.email;
 
     console.log("Run Validation", valid);
@@ -91,7 +101,7 @@ class NewForm extends React.Component {
                 />
               </label>
             </div>
-            <input type="submit" value="Submit" disabled={!this.state.valid} />
+            <input type="submit" value="Submit" disabled={!valid} />
           </form>
         </div>
       </div>
