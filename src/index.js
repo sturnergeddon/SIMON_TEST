@@ -15,6 +15,9 @@ class NewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      first_name: "",
+      last_name: "",
+      date_of_birth: 0,
       email: ""
     };
     this.submitForm = this.submitForm.bind(this);
@@ -52,34 +55,36 @@ class NewForm extends React.Component {
     let birthDate = new Date(dob);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
-
+    //  let testeml = validator.validate(email);
     console.log("Run Validation", valid);
     console.log("Email in validation", email);
+
+    /* Lets check Name length is valid.. */
 
     if (fn.length <= 2 || ln.length <= 2) {
       valid = false;
     }
-    /* console.log("fn", valid, fn);
-    console.log("ln", valid, ln);*/
-    /* if (email && !validator.validate(email)) {
-      // true
-      valid = false;
-    }*/
+
+    /* Check age in relation to today's date */
 
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    console.log("age: ", age);
+
     this.setState({ age: age });
 
-    // agecheck(dob);
-    console.log("age in validate ", age);
-    //let age = this.state.age;
+    // console.log("age in validate ", age);
 
-    if (age >= 18 && age <= 150) {
+    /* And if they're a valid age... */
+    if (age !== 0 && age >= 18 && age <= 150) {
       valid = true;
     }
-    console.log("valid state? ", valid);
+    console.log("age state ? ", age);
+    console.log("Email in validation222", email);
+    console.log("valid state ? ", valid);
+    const testeml = validator.validate(email);
+    console.log("valid test? ", testeml);
+
     this.setState({ valid: valid });
     return { valid };
   }
