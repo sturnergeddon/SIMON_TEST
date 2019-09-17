@@ -21,7 +21,6 @@ class NewForm extends React.Component {
     this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.reset = this.reset.bind(this);
-    // store the component's initial state to reset it
     this.initialState = this.state;
   }
 
@@ -46,26 +45,52 @@ class NewForm extends React.Component {
   validate() {
     let valid = true;
     let email = this.state.email;
+    let fn = this.state.first_name;
+    let ln = this.state.last_name;
+    let dob = this.state.date_of_birth;
+    let today = new Date();
+    let birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
 
     console.log("Run Validation", valid);
     console.log("Email in validation", email);
 
-    if (email && !validator.validate(email)); // true
-    valid = false;
+    if (fn.length <= 2 || ln.length <= 2) {
+      valid = false;
+    }
+    /* console.log("fn", valid, fn);
+    console.log("ln", valid, ln);*/
+    /* if (email && !validator.validate(email)) {
+      // true
+      valid = false;
+    }*/
 
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    console.log("age: ", age);
+    this.setState({ age: age });
+
+    // agecheck(dob);
+    console.log("age in validate ", age);
+    //let age = this.state.age;
+
+    if (age >= 18 && age <= 150) {
+      valid = true;
+    }
+    console.log("valid state? ", valid);
     this.setState({ valid: valid });
-    //this.setState({ email: "test" });
-    // console.log("valid state? ", valid);
     return { valid };
   }
 
   render() {
     let valid = this.state.valid;
-
-    console.log("First", this.state.first_name);
+    console.log("valid state in render? ", valid);
+    /*console.log("First", this.state.first_name);
     console.log("Last", this.state.last_name);
     console.log("dob", this.state.date_of_birth);
-    console.log("Email", this.state.email);
+    console.log("Email", this.state.email);*/
 
     return (
       <div className="App">
