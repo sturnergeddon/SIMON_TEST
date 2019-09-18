@@ -25,12 +25,12 @@ class NewForm extends React.Component {
       date_of_birth: 0,
       email: "",
       age: ""*/
-      // arr: []
     };
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.reset = this.reset.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
     this.initialState = this.state;
   }
 
@@ -85,6 +85,19 @@ class NewForm extends React.Component {
     event.preventDefault();
   }
 
+  validateEmail() {
+    /* let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let valid = this.state.valid;
+    if (input.value.match(mailformat)) {
+      document.form.email.focus();
+      this.setState({ valid: true });
+    } else {
+      alert("You have entered an invalid email address!");
+      document.form.email.focus();
+      this.setState({ valid: false });
+    */
+  }
+
   validate() {
     let valid = true;
     let email = this.state.email;
@@ -130,14 +143,19 @@ class NewForm extends React.Component {
     console.log("Email in validation", email);
 
     if (
-      first_name === "undefined" ||
-      last_name === "undefined" ||
+      fn === "undefined" ||
+      ln === "undefined" ||
       email === "undefined" ||
       age === "NaN" ||
-      date_of_birth === 0
+      dob === 0
     ) {
       valid = false;
     }
+
+    /*const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (reg.test(String(email).toLowerCase())) {
+      valid = false;
+    }*/
 
     this.setState({ valid: valid });
     console.log("valid test? ", valid);
@@ -209,7 +227,7 @@ class NewForm extends React.Component {
                   id="email"
                   type="email"
                   name="email"
-                  onBlur={this.validate}
+                  onBlur={this.validateEmail}
                   onChange={e => this.setState({ email: e.target.value })}
                 />
               </label>
