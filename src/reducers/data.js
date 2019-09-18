@@ -1,6 +1,6 @@
 //REDUCER
 //import { _ } from "lodash";
-/*
+
 const dataReducer = (state = {}, action) => {
   console.log("action", action);
   switch (action.type) {
@@ -19,4 +19,4 @@ const dataReducer = (state = {}, action) => {
   }
 };
 
-export default dataReducer;*/
+export default dataReducer;

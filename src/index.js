@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { validator } from "email-validator";
 
 import "./styles.css";
-//import dataReducer from "./reducers/data";
+////import dataReducer from "./reducers/data";
 //import { Provider } from "react-redux";
 /*import SimpleStorage, {
   clearStorage,
@@ -12,7 +12,7 @@ import "./styles.css";
 } from "react-simple-storage";*/
 
 //let itemsArray = []
-
+//const store = createStore();
 //localStorage.setItem('items', JSON.stringify(itemsArray))
 //const data = JSON.parse(localStorage.getItem('items'));
 
@@ -20,10 +20,12 @@ class NewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: "",
+      /* first_name: "",
       last_name: "",
       date_of_birth: 0,
-      email: ""
+      email: "",
+      age: ""*/
+      // arr: []
     };
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
@@ -33,24 +35,49 @@ class NewForm extends React.Component {
   }
 
   componentDidMount() {
-    // let _this = this;
-    /* store.subscribe(function() {
-      _this.forceUpdate();
-    });*/
+    console.log("CDM", localStorage);
+
+    let stFN = localStorage.getItem("first_name");
+    let stLN = localStorage.getItem("last_name");
+    let stDOB = localStorage.getItem("date_of_birth");
+    let stEM = localStorage.getItem("email");
+    if (stFN !== "undefined") {
+      document.getElementById("first_name").value = stFN;
+    }
+    if (stLN !== "undefined") {
+      document.getElementById("last_name").value = stLN;
+    }
+    if (stDOB !== "undefined") {
+      document.getElementById("date_of_birth").value = stDOB;
+    }
+    if (stEM !== "undefined") {
+      document.getElementById("email").value = stEM;
+    }
+
+    console.log("json", stFN);
   }
 
-  onChange(e) {
+  onChange() {
     //localStorage.setItem('field', 'value');
     //e.preventDefault()
+
     let first_name = this.state.first_name;
-    console.log("onch - fn", first_name);
+    let last_name = this.state.last_name;
+    let date_of_birth = this.state.date_of_birth;
+    let email = this.state.email;
+    // console.log("onch - fn", first_name);
     //itemsArray.push(field.value)
+
     localStorage.setItem("first_name", first_name);
-    console.log("JSON firstname", first_name.value);
+    localStorage.setItem("last_name", last_name);
+    localStorage.setItem("date_of_birth", date_of_birth);
+    localStorage.setItem("email", email);
+
+    // console.log("JSON firstname", first_name.value);
   }
 
   reset() {
-    //store.dispatch({ type: "RESET_DATA" });
+    localStorage.clear(); //store.dispatch({ type: "RESET_DATA" });
   }
 
   submitForm(event) {
@@ -70,12 +97,12 @@ class NewForm extends React.Component {
     let m = today.getMonth() - birthDate.getMonth();
     //  let testeml = validator.validate(email);
     console.log("Run Validation", valid);
-    console.log("Email in validation", email);
 
     /* Lets check Name length is valid.. */
 
     if (fn.length <= 2 || ln.length <= 2) {
       valid = false;
+      console.log("Name valid? ", valid);
     }
 
     /* Check age in relation to today's date */
@@ -91,15 +118,26 @@ class NewForm extends React.Component {
     /* And if they're a valid age... */
     if (age !== 0 && age >= 18 && age <= 150) {
       valid = true;
+      console.log("valid age ", valid);
     }
+
     console.log("age state ? ", age);
-    console.log("Email in validation222", email);
     console.log("valid state ? ", valid);
     /* const testeml = validator.validate(email);
   if (!testeml) {
     valid = false;
   }*/
-    console.log("Local", localStorage);
+    console.log("Email in validation", email);
+
+    if (
+      first_name === "undefined" ||
+      last_name === "undefined" ||
+      email === "undefined" ||
+      age === "NaN" ||
+      date_of_birth === 0
+    ) {
+      valid = false;
+    }
 
     this.setState({ valid: valid });
     console.log("valid test? ", valid);
@@ -108,13 +146,15 @@ class NewForm extends React.Component {
 
   render() {
     let valid = this.state.valid;
+
     this.onChange();
     console.log("valid state in render? ", valid);
-    console.log("First", this.state.first_name);
+    /* console.log("First", this.state.first_name);
     console.log("Last", this.state.last_name);
     console.log("dob", this.state.date_of_birth);
-    console.log("Email", this.state.email);
+    console.log("Email", this.state.email);*/
 
+    //this.validate();
     return (
       <div className="App">
         <div className="container">
@@ -186,8 +226,8 @@ class NewForm extends React.Component {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-  // <Provider store={store}>
+  //  <Provider store={store}>
   <NewForm />,
-  // </Provider>,
+  //  </Provider>,
   rootElement
 );
