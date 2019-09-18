@@ -249,3 +249,24 @@ ReactDOM.render(
   //  </Provider>,
   rootElement
 );
+/*  validateEmail:function(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+     // Check validity of email
+
+   var email = data.emailpreferred;
+    if(email && !(_.validateEmail(email))) {
+      valid = false;
+      messages["emailpreferred"] = "Sorry, this is not a valid email address";
+    }
+   });*/
