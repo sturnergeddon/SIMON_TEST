@@ -6,10 +6,15 @@ import { validator } from "email-validator";
 import "./styles.css";
 //import dataReducer from "./reducers/data";
 //import { Provider } from "react-redux";
-import SimpleStorage, {
+/*import SimpleStorage, {
   clearStorage,
   resetParentState
-} from "react-simple-storage";
+} from "react-simple-storage";*/
+
+//let itemsArray = []
+
+//localStorage.setItem('items', JSON.stringify(itemsArray))
+//const data = JSON.parse(localStorage.getItem('items'));
 
 class NewForm extends React.Component {
   constructor(props) {
@@ -34,7 +39,15 @@ class NewForm extends React.Component {
     });*/
   }
 
-  onChange(e, field, value) {}
+  onChange(e) {
+    //localStorage.setItem('field', 'value');
+    //e.preventDefault()
+    let first_name = this.state.first_name;
+    console.log("onch - fn", first_name);
+    //itemsArray.push(field.value)
+    localStorage.setItem("first_name", first_name);
+    console.log("JSON firstname", first_name.value);
+  }
 
   reset() {
     //store.dispatch({ type: "RESET_DATA" });
@@ -82,27 +95,32 @@ class NewForm extends React.Component {
     console.log("age state ? ", age);
     console.log("Email in validation222", email);
     console.log("valid state ? ", valid);
-    const testeml = validator.validate(email);
-    console.log("valid test? ", testeml);
+    /* const testeml = validator.validate(email);
+  if (!testeml) {
+    valid = false;
+  }*/
+    console.log("Local", localStorage);
 
     this.setState({ valid: valid });
+    console.log("valid test? ", valid);
     return { valid };
   }
 
   render() {
     let valid = this.state.valid;
+    this.onChange();
     console.log("valid state in render? ", valid);
-    /*console.log("First", this.state.first_name);
+    console.log("First", this.state.first_name);
     console.log("Last", this.state.last_name);
     console.log("dob", this.state.date_of_birth);
-    console.log("Email", this.state.email);*/
+    console.log("Email", this.state.email);
 
     return (
       <div className="App">
         <div className="container">
           <h1>User Details</h1>
           <h2>Please enter your details to continue:</h2>
-          <SimpleStorage parent={this} prefix={"ParentComponent"} />
+
           <form>
             <div>
               <label>
@@ -158,17 +176,7 @@ class NewForm extends React.Component {
             </div>
             <input type="submit" value="Submit" disabled={!valid} />
 
-            <button
-              onClick={() =>
-                resetParentState(this, this.initialState, ["text"])
-              }
-            >
-              resetParentState
-            </button>
-
-            <button onClick={() => clearStorage("ParentComponent")}>
-              clearStorage
-            </button>
+            <button onClick={() => localStorage.clear()}>Clear Storage</button>
           </form>
         </div>
       </div>
