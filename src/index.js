@@ -8,20 +8,12 @@ import "./styles.css";
 class NewForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // nameValid: true
-      /* first_name: "",
-      last_name: "",
-      date_of_birth: 0,
-      email: "",
-      age: ""*/
-    };
+    this.state = {};
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.reset = this.reset.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
-    this.initialState = this.state;
   }
 
   componentDidMount() {
@@ -55,7 +47,7 @@ class NewForm extends React.Component {
     let last_name = this.state.last_name;
     let date_of_birth = this.state.date_of_birth;
     let email = this.state.email;
-    let age = this.state.age;
+    //let age = this.state.age;
     // console.log("onch - fn", first_name);
     //itemsArray.push(field.value)
 
@@ -63,8 +55,9 @@ class NewForm extends React.Component {
     localStorage.setItem("last_name", last_name);
     localStorage.setItem("date_of_birth", date_of_birth);
     localStorage.setItem("email", email);
-    localStorage.setItem("age", age);
+    //localStorage.setItem("age", age);
 
+    console.log("ONCHG", localStorage);
     // console.log("JSON firstname", first_name.value);
   }
 
@@ -122,38 +115,32 @@ class NewForm extends React.Component {
     }
     console.log("Valid Email? ", emailValid);
 
+    /* Do final validation checks to ensure we're good to go */
     if (nameValid && ageValid && emailValid) {
       isSubmitValid = true;
-      this.setState({ isSubmitValid: isSubmitValid });
     }
-
+    /* Set the state.. */
     console.log("valid passed? ", isSubmitValid);
-
+    this.setState({ isSubmitValid: isSubmitValid });
+    this.onChange();
     return { isSubmitValid };
   }
-
-  submitForm(event) {
-    alert("test");
-    event.preventDefault();
-  }
+  submitForm = e => {
+    console.log("POSTED FIELDS", this.state);
+    alert("Congratulations on submitting your details!");
+    e.preventDefault();
+  };
 
   render() {
     let isSubmitValid = this.state.isSubmitValid;
 
-    //  console.log("valid state in render? ", isSubmitValid);
-    /* console.log("First", this.state.first_name);
-    console.log("Last", this.state.last_name);
-    console.log("dob", this.state.date_of_birth);
-    console.log("Email", this.state.email);*/
-
-    //this.validate();
     return (
       <div className="App">
         <div className="container">
           <h1>User Details</h1>
           <h2>Please enter your details to continue:</h2>
 
-          <form>
+          <form onSubmit={this.submitForm}>
             <div>
               <label>
                 First Name:
@@ -217,9 +204,4 @@ class NewForm extends React.Component {
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(
-  //  <Provider store={store}>
-  <NewForm />,
-  //  </Provider>,
-  rootElement
-);
+ReactDOM.render(<NewForm />, rootElement);
