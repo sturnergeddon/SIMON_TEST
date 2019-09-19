@@ -1,10 +1,12 @@
+/***********************
+ * Simon Turner
+ * Coding Test - Sept 19
+ * Webroot *
+ ***********************/
 import React from "react";
 import ReactDOM from "react-dom";
-//import { createStore } from "redux";
 import "./styles.css";
 import logo from "./assets/logo.png";
-////import dataReducer from "./reducers/data";
-//import { Provider } from "react-redux";
 
 class NewForm extends React.Component {
   constructor(props) {
@@ -12,46 +14,11 @@ class NewForm extends React.Component {
     this.state = {};
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
   }
 
-  componentDidMount() {
-    /* console.log("CDM", localStorage);
-    let stFN = localStorage.getItem("first_name");
-    let stLN = localStorage.getItem("last_name");
-    let stDOB = localStorage.getItem("date_of_birth");
-    let stEM = localStorage.getItem("email");
-    if (stFN !== "undefined") {
-      document.getElementById("first_name").value = stFN;
-    }
-    if (stLN !== "undefined") {
-      document.getElementById("last_name").value = stLN;
-    }
-    if (stDOB !== "undefined") {
-      document.getElementById("date_of_birth").value = stDOB;
-    }
-    if (stEM !== "undefined") {
-      document.getElementById("email").value = stEM;
-    }*/
-  }
-
-  onChange() {
-    /*let first_name = this.state.first_name;
-    let last_name = this.state.last_name;
-    let date_of_birth = this.state.date_of_birth;
-    let email = this.state.email;
-
-    localStorage.setItem("first_name", first_name);
-    localStorage.setItem("last_name", last_name);
-    localStorage.setItem("date_of_birth", date_of_birth);
-    localStorage.setItem("email", email);
-*/
-    //console.log("ONCHG", localStorage);
-  }
-
   validateEmail(email) {
-    //console.log("validemailtest", email);
+    /* Use regex to qualify email */
     let em = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return em.test(email);
   }
@@ -70,16 +37,12 @@ class NewForm extends React.Component {
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
 
-    // console.log("Run Validation", valid);
-
     /* Check existence of both names and that they meet the required length */
     if (fn && fn.length >= 2 && (ln && ln.length >= 2)) {
       nameValid = true;
     }
-    // console.log("Name valid? ", nameValid);
 
     /* Check age in relation to today's date */
-
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
@@ -89,7 +52,6 @@ class NewForm extends React.Component {
     if (age !== 0 && age >= 18 && age <= 150) {
       ageValid = true;
     }
-    //  console.log("valid age? ", ageValid);
 
     /* Run email validation function */
     if (email && this.validateEmail(email)) {
@@ -97,21 +59,23 @@ class NewForm extends React.Component {
     } else {
       emailValid = false;
     }
-    //console.log("Valid Email? ", emailValid);
 
     /* Do final validation checks to ensure we're good to go */
     if (nameValid && ageValid && emailValid) {
       isSubmitValid = true;
     }
     /* Set the state.. */
-    //  console.log("valid passed? ", isSubmitValid);
+
     this.setState({ isSubmitValid: isSubmitValid });
-    this.onChange();
     return { isSubmitValid };
   }
+
+  /* Prevent the form from refreshing, just take the current state and log that out for now. */
   submitForm = e => {
     console.log("POSTED FIELDS", this.state);
-    alert("Congratulations on submitting your details!");
+    alert(
+      "Congratulations on submitting your details! Please check your Console."
+    );
     e.preventDefault();
   };
 
@@ -124,9 +88,12 @@ class NewForm extends React.Component {
           <div className="header">
             <img src={logo} className="App-logo" alt="logo" />
           </div>
-          <h1>User Details</h1>
+          <h1>
+            <u>User Details</u>
+          </h1>
           <h2>Please enter your details to continue:</h2>
-
+          <br />
+          <br />
           <form onSubmit={this.submitForm}>
             <div className="formfields">
               <div>
@@ -136,7 +103,7 @@ class NewForm extends React.Component {
                     id="first_name"
                     type="text"
                     name="first_name"
-                    placeholder="Type here"
+                    placeholder="Frank"
                     onBlur={this.validate}
                     onChange={e =>
                       this.setState({ first_name: e.target.value })
@@ -151,7 +118,7 @@ class NewForm extends React.Component {
                     id="last_name"
                     type="text"
                     name="last_name"
-                    placeholder="Doe"
+                    placeholder="Reynolds"
                     onBlur={this.validate}
                     onChange={e => this.setState({ last_name: e.target.value })}
                   />
@@ -178,7 +145,7 @@ class NewForm extends React.Component {
                     id="email"
                     type="email"
                     name="email"
-                    placeholder="Type here"
+                    placeholder="Email"
                     onBlur={this.validate}
                     onChange={e => this.setState({ email: e.target.value })}
                   />
@@ -200,5 +167,3 @@ class NewForm extends React.Component {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<NewForm />, rootElement);
-
-/*  <button onClick={() => localStorage.clear()}>Clear Storage</button> */
