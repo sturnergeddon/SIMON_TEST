@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 //import { createStore } from "redux";
 import "./styles.css";
+import logo from "./assets/logo.png";
 ////import dataReducer from "./reducers/data";
 //import { Provider } from "react-redux";
 
@@ -120,6 +121,9 @@ class NewForm extends React.Component {
     return (
       <div className="App">
         <div className="container">
+          <div className="header">
+            <img src={logo} className="App-logo" alt="logo" />
+          </div>
           <h1>User Details</h1>
           <h2>Please enter your details to continue:</h2>
 

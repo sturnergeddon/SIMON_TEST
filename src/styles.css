@@ -5,6 +5,15 @@
   text-align: center;
 }
 
+.App-logo {
+  width: 20vh;
+}
+
+.header {
+  width: 100%;
+  margin: 20px 0 20px 0;
+}
+
 .container {
   background-color: #fff;
   min-height: 30vh;
@@ -12,8 +21,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /*font-size: calc(10px + 2vmin);*/
-  color: #ee313e;
+  font-size: calc(10px + 1vmin);
+  color: #000;
   border: 10px solid #101d49;
   border-radius: 0px;
   max-width: 740px;
@@ -42,7 +51,7 @@ form {
   margin: 0px;
 }
 h1 {
-  padding: 50px 0px;
+  padding: 0px 0px;
 }
 
 .formfields {
@@ -51,16 +60,22 @@ h1 {
 }
 
 .button {
-  background-color: #febf13 !important;
+  background-color: #ff480d !important;
   color: #000;
-  border: 2px solid #febf13;
+  border: 2px solid #ff480d;
   padding: 0 2.2em;
   line-height: 48px;
   font-weight: 700;
+  font-size: 20px;
   border-radius: 0;
 }
 .button:hover {
   background: #fff !important;
   color: #000;
   transition: background 0.3s cubic-bezier(0.8, 0.37, 0.21, 0.8);
+}
+.button:disabled,
+button[disabled] {
+  opacity: 0.5;
+  background: #ff480d !important;
 }
