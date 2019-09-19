@@ -12,13 +12,11 @@ class NewForm extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.reset = this.reset.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
   }
 
   componentDidMount() {
-    console.log("CDM", localStorage);
-
+    /* console.log("CDM", localStorage);
     let stFN = localStorage.getItem("first_name");
     let stLN = localStorage.getItem("last_name");
     let stDOB = localStorage.getItem("date_of_birth");
@@ -34,45 +32,30 @@ class NewForm extends React.Component {
     }
     if (stEM !== "undefined") {
       document.getElementById("email").value = stEM;
-    }
-
-    console.log("json", stFN);
+    }*/
   }
 
   onChange() {
-    //localStorage.setItem('field', 'value');
-    //e.preventDefault()
-
-    let first_name = this.state.first_name;
+    /*let first_name = this.state.first_name;
     let last_name = this.state.last_name;
     let date_of_birth = this.state.date_of_birth;
     let email = this.state.email;
-    //let age = this.state.age;
-    // console.log("onch - fn", first_name);
-    //itemsArray.push(field.value)
 
     localStorage.setItem("first_name", first_name);
     localStorage.setItem("last_name", last_name);
     localStorage.setItem("date_of_birth", date_of_birth);
     localStorage.setItem("email", email);
-    //localStorage.setItem("age", age);
-
-    console.log("ONCHG", localStorage);
-    // console.log("JSON firstname", first_name.value);
-  }
-
-  reset() {
-    localStorage.clear(); //store.dispatch({ type: "RESET_DATA" });
+*/
+    //console.log("ONCHG", localStorage);
   }
 
   validateEmail(email) {
-    console.log("validemailtest", email);
+    //console.log("validemailtest", email);
     let em = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return em.test(email);
   }
 
   validate() {
-    let valid = true;
     let nameValid = false;
     let ageValid = false;
     let emailValid = false;
@@ -86,41 +69,41 @@ class NewForm extends React.Component {
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
 
-    console.log("Run Validation", valid);
+    // console.log("Run Validation", valid);
 
     /* Check existence of both names and that they meet the required length */
     if (fn && fn.length >= 2 && (ln && ln.length >= 2)) {
       nameValid = true;
     }
-    console.log("Name valid? ", nameValid);
+    // console.log("Name valid? ", nameValid);
 
     /* Check age in relation to today's date */
 
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-
     this.setState({ age: age });
 
     /* And if they're a valid age... */
     if (age !== 0 && age >= 18 && age <= 150) {
       ageValid = true;
     }
-    console.log("valid age? ", ageValid);
+    //  console.log("valid age? ", ageValid);
 
+    /* Run email validation function */
     if (email && this.validateEmail(email)) {
       emailValid = true;
     } else {
       emailValid = false;
     }
-    console.log("Valid Email? ", emailValid);
+    //console.log("Valid Email? ", emailValid);
 
     /* Do final validation checks to ensure we're good to go */
     if (nameValid && ageValid && emailValid) {
       isSubmitValid = true;
     }
     /* Set the state.. */
-    console.log("valid passed? ", isSubmitValid);
+    //  console.log("valid passed? ", isSubmitValid);
     this.setState({ isSubmitValid: isSubmitValid });
     this.onChange();
     return { isSubmitValid };
@@ -141,61 +124,69 @@ class NewForm extends React.Component {
           <h2>Please enter your details to continue:</h2>
 
           <form onSubmit={this.submitForm}>
-            <div>
-              <label>
-                First Name:
-                <input
-                  id="first_name"
-                  type="text"
-                  name="first_name"
-                  placeholder="e.g. John"
-                  onBlur={this.validate}
-                  onChange={e => this.setState({ first_name: e.target.value })}
-                />
-              </label>
+            <div className="formfields">
+              <div>
+                <label>
+                  First Name:
+                  <input
+                    id="first_name"
+                    type="text"
+                    name="first_name"
+                    placeholder="Type here"
+                    onBlur={this.validate}
+                    onChange={e =>
+                      this.setState({ first_name: e.target.value })
+                    }
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  Last Name:
+                  <input
+                    id="last_name"
+                    type="text"
+                    name="last_name"
+                    placeholder="Doe"
+                    onBlur={this.validate}
+                    onChange={e => this.setState({ last_name: e.target.value })}
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  Date of Birth:
+                  <input
+                    id="date_of_birth"
+                    type="date"
+                    name="date_of_birth"
+                    onBlur={this.validate}
+                    onChange={e =>
+                      this.setState({ date_of_birth: e.target.value })
+                    }
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  Email Address:
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Type here"
+                    onBlur={this.validate}
+                    onChange={e => this.setState({ email: e.target.value })}
+                  />
+                </label>
+              </div>
+              <input
+                className="button"
+                type="submit"
+                value="Submit"
+                disabled={!isSubmitValid}
+              />
             </div>
-            <div>
-              <label>
-                Last Name:
-                <input
-                  id="last_name"
-                  type="text"
-                  name="last_name"
-                  placeholder="e.g. Doe"
-                  onBlur={this.validate}
-                  onChange={e => this.setState({ last_name: e.target.value })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Date of Birth:
-                <input
-                  id="date_of_birth"
-                  type="date"
-                  name="date_of_birth"
-                  onBlur={this.validate}
-                  onChange={e =>
-                    this.setState({ date_of_birth: e.target.value })
-                  }
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Email Address:
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  onBlur={this.validate}
-                  onChange={e => this.setState({ email: e.target.value })}
-                />
-              </label>
-            </div>
-            <input type="submit" value="Submit" disabled={!isSubmitValid} />
-
-            <button onClick={() => localStorage.clear()}>Clear Storage</button>
           </form>
         </div>
       </div>
@@ -205,3 +196,5 @@ class NewForm extends React.Component {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<NewForm />, rootElement);
+
+/*  <button onClick={() => localStorage.clear()}>Clear Storage</button> */

@@ -16,7 +16,7 @@
   color: #ee313e;
   border: 10px solid #101d49;
   border-radius: 0px;
-  max-width: 50%;
+  max-width: 740px;
   margin: 0px auto;
   padding: 50px;
   -webkit-box-shadow: 0px 20px 74px -12px rgba(0, 0, 0, 0.77);
@@ -27,13 +27,40 @@
 form label {
   color: #000;
   padding: 0px;
+  display: grid;
+  font-weight: 700;
 }
 
 form input {
   padding: 10px;
   margin: 10px;
+  border: 2px solid #101d49;
+  line-height: 20px;
 }
 
+form {
+  margin: 0px;
+}
 h1 {
   padding: 50px 0px;
+}
+
+.formfields {
+  min-width: 50vmin;
+  border: 0px solid red;
+}
+
+.button {
+  background-color: #febf13 !important;
+  color: #000;
+  border: 2px solid #febf13;
+  padding: 0 2.2em;
+  line-height: 48px;
+  font-weight: 700;
+  border-radius: 0;
+}
+.button:hover {
+  background: #fff !important;
+  color: #000;
+  transition: background 0.3s cubic-bezier(0.8, 0.37, 0.21, 0.8);
 }
