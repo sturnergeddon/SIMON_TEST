@@ -5,7 +5,6 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "email-validator": "2.0.4",
     "lodash": "4.17.15",
     "react": "16.8.6",
     "react-dom": "16.8.6",

@@ -1,25 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 //import { createStore } from "redux";
-import { validator } from "email-validator";
-
 import "./styles.css";
 ////import dataReducer from "./reducers/data";
 //import { Provider } from "react-redux";
-/*import SimpleStorage, {
-  clearStorage,
-  resetParentState
-} from "react-simple-storage";*/
-
-//let itemsArray = []
-//const store = createStore();
-//localStorage.setItem('items', JSON.stringify(itemsArray))
-//const data = JSON.parse(localStorage.getItem('items'));
 
 class NewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // nameValid: true
       /* first_name: "",
       last_name: "",
       date_of_birth: 0,
@@ -65,6 +55,7 @@ class NewForm extends React.Component {
     let last_name = this.state.last_name;
     let date_of_birth = this.state.date_of_birth;
     let email = this.state.email;
+    let age = this.state.age;
     // console.log("onch - fn", first_name);
     //itemsArray.push(field.value)
 
@@ -72,6 +63,7 @@ class NewForm extends React.Component {
     localStorage.setItem("last_name", last_name);
     localStorage.setItem("date_of_birth", date_of_birth);
     localStorage.setItem("email", email);
+    localStorage.setItem("age", age);
 
     // console.log("JSON firstname", first_name.value);
   }
@@ -80,26 +72,18 @@ class NewForm extends React.Component {
     localStorage.clear(); //store.dispatch({ type: "RESET_DATA" });
   }
 
-  submitForm(event) {
-    alert("test");
-    event.preventDefault();
-  }
-
-  validateEmail() {
-    /* let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let valid = this.state.valid;
-    if (input.value.match(mailformat)) {
-      document.form.email.focus();
-      this.setState({ valid: true });
-    } else {
-      alert("You have entered an invalid email address!");
-      document.form.email.focus();
-      this.setState({ valid: false });
-    */
+  validateEmail(email) {
+    console.log("validemailtest", email);
+    let em = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return em.test(email);
   }
 
   validate() {
     let valid = true;
+    let nameValid = false;
+    let ageValid = false;
+    let emailValid = false;
+    let isSubmitValid = false;
     let email = this.state.email;
     let fn = this.state.first_name;
     let ln = this.state.last_name;
@@ -108,15 +92,14 @@ class NewForm extends React.Component {
     let birthDate = new Date(dob);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
-    //  let testeml = validator.validate(email);
+
     console.log("Run Validation", valid);
 
-    /* Lets check Name length is valid.. */
-
-    if (fn.length <= 2 || ln.length <= 2) {
-      valid = false;
-      console.log("Name valid? ", valid);
+    /* Check existence of both names and that they meet the required length */
+    if (fn && fn.length >= 2 && (ln && ln.length >= 2)) {
+      nameValid = true;
     }
+    console.log("Name valid? ", nameValid);
 
     /* Check age in relation to today's date */
 
@@ -126,47 +109,38 @@ class NewForm extends React.Component {
 
     this.setState({ age: age });
 
-    // console.log("age in validate ", age);
-
     /* And if they're a valid age... */
     if (age !== 0 && age >= 18 && age <= 150) {
-      valid = true;
-      console.log("valid age ", valid);
+      ageValid = true;
+    }
+    console.log("valid age? ", ageValid);
+
+    if (email && this.validateEmail(email)) {
+      emailValid = true;
+    } else {
+      emailValid = false;
+    }
+    console.log("Valid Email? ", emailValid);
+
+    if (nameValid && ageValid && emailValid) {
+      isSubmitValid = true;
+      this.setState({ isSubmitValid: isSubmitValid });
     }
 
-    console.log("age state ? ", age);
-    console.log("valid state ? ", valid);
-    /* const testeml = validator.validate(email);
-  if (!testeml) {
-    valid = false;
-  }*/
-    console.log("Email in validation", email);
+    console.log("valid passed? ", isSubmitValid);
 
-    if (
-      fn === "undefined" ||
-      ln === "undefined" ||
-      email === "undefined" ||
-      age === "NaN" ||
-      dob === 0
-    ) {
-      valid = false;
-    }
+    return { isSubmitValid };
+  }
 
-    /*const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (reg.test(String(email).toLowerCase())) {
-      valid = false;
-    }*/
-
-    this.setState({ valid: valid });
-    console.log("valid test? ", valid);
-    return { valid };
+  submitForm(event) {
+    alert("test");
+    event.preventDefault();
   }
 
   render() {
-    let valid = this.state.valid;
+    let isSubmitValid = this.state.isSubmitValid;
 
-    this.onChange();
-    console.log("valid state in render? ", valid);
+    //  console.log("valid state in render? ", isSubmitValid);
     /* console.log("First", this.state.first_name);
     console.log("Last", this.state.last_name);
     console.log("dob", this.state.date_of_birth);
@@ -227,12 +201,12 @@ class NewForm extends React.Component {
                   id="email"
                   type="email"
                   name="email"
-                  onBlur={this.validateEmail}
+                  onBlur={this.validate}
                   onChange={e => this.setState({ email: e.target.value })}
                 />
               </label>
             </div>
-            <input type="submit" value="Submit" disabled={!valid} />
+            <input type="submit" value="Submit" disabled={!isSubmitValid} />
 
             <button onClick={() => localStorage.clear()}>Clear Storage</button>
           </form>
@@ -249,24 +223,3 @@ ReactDOM.render(
   //  </Provider>,
   rootElement
 );
-/*  validateEmail:function(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  },
-  
-  
-  
-  
-  
-  
-  
-  
-  
-     // Check validity of email
-
-   var email = data.emailpreferred;
-    if(email && !(_.validateEmail(email))) {
-      valid = false;
-      messages["emailpreferred"] = "Sorry, this is not a valid email address";
-    }
-   });*/
