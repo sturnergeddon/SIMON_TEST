@@ -1,7 +1,7 @@
 /***********************
  * Simon Turner
  * Coding Test - Sept 19
- * Webroot *
+ *
  ***********************/
 import React from "react";
 import ReactDOM from "react-dom";
